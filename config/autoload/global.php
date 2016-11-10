@@ -14,9 +14,9 @@
 return [
     'db' => [
         'driver' => 'Pdo',
-        'dsn' => 'pgsql:dbname=restapi;host=database',
-        'username' => 'postgres',
-        'password' => '123qwe',
+        'dsn' => 'mysql:dbname=contact;host=localhost',
+        'username' => 'contact',
+        'password' => 'contact',
     ],
     'service_manager' => [
         'factories' => [

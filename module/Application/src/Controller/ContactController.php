@@ -7,8 +7,12 @@
 
 namespace Application\Controller;
 
+use Application\Model\ContactTable as ContactModel;
+
 use Application\Model\ContactTable;
 use Zend\Mvc\Controller\AbstractActionController;
+
+use Zend\ServiceManager\ServiceLocatorInterface;
 use Zend\View\Model\ViewModel;
 
 class ContactController extends AbstractActionController
@@ -18,6 +22,23 @@ class ContactController extends AbstractActionController
      */
     protected $contactTable;
 
+    protected $serviceLocator = null;
+
+    public function __construct(ContactTable $model)
+    {
+$this->contactTable = $model;
+    }
+
+    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
+    {
+        $this->serviceLocator = $serviceLocator;
+        return $this;
+    }
+    public function getServiceLocator()
+    {
+        return $this->serviceLocator;
+    }
+
     /**
      * @return ContactTable
      */
@@ -25,6 +46,7 @@ class ContactController extends AbstractActionController
     {
         if (!$this->contactTable) {
             $sm = $this->getServiceLocator();
+
             $this->contactTable = $sm->get('Application\Model\ContactTable');
         }
 
@@ -36,5 +58,10 @@ class ContactController extends AbstractActionController
         $contactsObjects = $this->getContactTable()->fetchAll();
 
         return new ViewModel();
+    }
+
+    public function __invoke()
+    {
+        return $this->indexAction();
     }
 }
