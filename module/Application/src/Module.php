@@ -7,8 +7,10 @@
 
 namespace Application;
 
+use Application\Controller\ContactController;
 use Application\Model\Contact;
 use Application\Model\ContactTable;
+use Zend\Db\Adapter\AdapterInterface;
 use Zend\Db\ResultSet\ResultSet;
 use Zend\Db\TableGateway\TableGateway;
 
@@ -18,21 +20,34 @@ class Module
 
     public function getServiceConfig()
     {
-        return array(
-            'factories' => array(
-                'Application\Model\ContactTable' =>  function($sm) {
-                    $tableGateway = $sm->get('ContactTableGateway');
-                    $table = new ContactTable($tableGateway);
-                    return $table;
+        return [
+            'factories' => [
+                Model\ContactTable::class =>  function($container) {
+                    $tableGateway = $container->get(Model\ContactTableGateway::class);
+                    return new Model\ContactTable($tableGateway);
                 },
-                'ContactTableGateway' => function ($sm) {
-                    $dbAdapter = $sm->get('Zend\Db\Adapter\Adapter');
+                Model\ContactTableGateway::class => function ($container) {
+                    $dbAdapter = $container->get(AdapterInterface::class);
                     $resultSetPrototype = new ResultSet();
-                    $resultSetPrototype->setArrayObjectPrototype(new Contact());
+                    $resultSetPrototype->setArrayObjectPrototype(new Model\Contact());
+
                     return new TableGateway('contact', $dbAdapter, null, $resultSetPrototype);
                 },
-            ),
-        );
+            ],
+        ];
+    }
+
+    public function getControllerConfig()
+    {
+        return [
+            'factories' => [
+                ContactController::class => function ($container) {
+                    return new ContactController(
+                        $container->get(Model\ContactTable::class)
+                    );
+                },
+            ]
+        ];
     }
 
     public function getConfig()

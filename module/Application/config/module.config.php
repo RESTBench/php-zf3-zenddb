@@ -7,6 +7,7 @@
 
 namespace Application;
 
+use Zend\Cache\Service\StorageCacheAbstractServiceFactory;
 use Zend\Router\Http\Literal;
 use Zend\Router\Http\Segment;
 use Zend\ServiceManager\Factory\InvokableFactory;
@@ -38,7 +39,7 @@ return [
     ],
     'controllers' => [
         'factories' => [
-            Controller\ContactController::class => InvokableFactory::class,
+            //Controller\ContactController::class => InvokableFactory::class,
         ],
     ],
     'view_manager' => [

@@ -16,6 +16,8 @@ services:
             - "9000:9000"
         depends_on:
             - database
+        environment:
+            - APP_ENV=production
         volumes:
             - .:/var/www/zend_app
             - ./docker/php/php.ini:/usr/local/etc/php/php.ini

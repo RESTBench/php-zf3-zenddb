@@ -7,9 +7,10 @@
 
 namespace Application\Controller;
 
+use Application\Model\Contact;
 use Application\Model\ContactTable;
 use Zend\Mvc\Controller\AbstractActionController;
-use Zend\View\Model\ViewModel;
+use Zend\View\Model\JsonModel;
 
 class ContactController extends AbstractActionController
 {
@@ -18,23 +19,25 @@ class ContactController extends AbstractActionController
      */
     protected $contactTable;
 
-    /**
-     * @return ContactTable
-     */
-    public function getContactTable()
+    public function __construct(ContactTable $contactTable)
     {
-        if (!$this->contactTable) {
-            $sm = $this->getServiceLocator();
-            $this->contactTable = $sm->get('Application\Model\ContactTable');
-        }
-
-        return $this->contactTable;
+        $this->contactTable = $contactTable;
     }
 
     public function indexAction()
     {
-        $contactsObjects = $this->getContactTable()->fetchAll();
+        $contacts = [];
+        $contactsObjects = $this->contactTable->fetchAll();
 
-        return new ViewModel();
+        /** @var Contact $object */
+        foreach ($contactsObjects as $object) {
+            $contacts[] = $object->getArrayCopy();
+        }
+
+        $response = $this->getResponse();
+        $response->getHeaders()->addHeaderLine( 'Content-Type', 'application/json' );
+        $response->setContent(json_encode(['data' => $contacts]));
+
+        return $response;
     }
 }

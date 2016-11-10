@@ -2,14 +2,14 @@
 
 namespace Application\Model;
 
-use Zend\Db\TableGateway\TableGateway;
+use Zend\Db\TableGateway\TableGatewayInterface;
 
 class ContactTable
 {
 
     protected $tableGateway;
 
-    public function __construct(TableGateway $tableGateway)
+    public function __construct(TableGatewayInterface $tableGateway)
     {
         $this->tableGateway = $tableGateway;
     }
