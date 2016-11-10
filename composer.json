@@ -16,8 +16,7 @@
         "zendframework/zend-component-installer": "^1.0 || ^0.3 || ^1.0.0-dev@dev",
         "zendframework/zend-mvc": "^3.0.1",
         "zfcampus/zf-development-mode": "^3.0",
-        "zendframework/zend-db": "^2.8",
-        "zendframework/zftool": "dev-master"
+        "zendframework/zend-db": "^2.8"
     },
     "autoload": {
         "psr-4": {
