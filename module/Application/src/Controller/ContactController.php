@@ -22,22 +22,14 @@ class ContactController extends AbstractActionController
      */
     protected $contactTable;
 
-    protected $serviceLocator = null;
+
 
     public function __construct(ContactTable $model)
     {
 $this->contactTable = $model;
     }
 
-    public function setServiceLocator(ServiceLocatorInterface $serviceLocator)
-    {
-        $this->serviceLocator = $serviceLocator;
-        return $this;
-    }
-    public function getServiceLocator()
-    {
-        return $this->serviceLocator;
-    }
+
 
     /**
      * @return ContactTable

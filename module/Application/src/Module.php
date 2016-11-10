@@ -22,7 +22,6 @@ class Module
             'factories' => array(
                 'Application\Model\ContactTable' =>  function($sm) {
                     $tableGateway = $sm->get('ContactTableGateway');
-
                     $table = new ContactTable($tableGateway);
                     return $table;
                 },
